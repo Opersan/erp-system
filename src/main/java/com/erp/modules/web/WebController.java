@@ -30,6 +30,29 @@ public class WebController {
     public String dashboard(Model model) {
         model.addAttribute("pageTitle", "Kontrol Paneli");
         model.addAttribute("activePage", "dashboard");
+        
+        // KPI Data
+        model.addAttribute("totalOrders", procurementService.getAllOrders().size());
+        model.addAttribute("totalStock", inventoryService.getAllStock().size());
+        model.addAttribute("totalWorkOrders", manufacturingService.getAllWorkOrders().size());
+        model.addAttribute("pendingOrders", procurementService.getAllOrders().stream()
+            .filter(o -> o.getStatus().toString().equals("DRAFT") || o.getStatus().toString().equals("APPROVED"))
+            .count());
+        
+        // Recent orders for table
+        var recentOrders = procurementService.getAllOrders().stream()
+            .sorted((a, b) -> b.getId().compareTo(a.getId()))
+            .limit(5)
+            .toList();
+        model.addAttribute("recentOrders", recentOrders);
+        
+        // Low stock items
+        var lowStockItems = inventoryService.getAllStock().stream()
+            .filter(s -> s.getOnHand() < 10)
+            .limit(5)
+            .toList();
+        model.addAttribute("lowStockItems", lowStockItems);
+        
         return "dashboard";
     }
     
