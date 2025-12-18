@@ -136,4 +136,8 @@ public class MrpService {
                 .orElseThrow(() -> new RuntimeException("Run not found"));
         return plannedOrderRepository.findByMrpRun(run);
     }
+
+    public List<MrpRun> getAllRuns() {
+        return mrpRunRepository.findAll();
+    }
 }

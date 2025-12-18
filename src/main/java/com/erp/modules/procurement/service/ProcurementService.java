@@ -71,4 +71,8 @@ public class ProcurementService {
         return purchaseOrderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("PO not found"));
     }
+
+    public List<PurchaseOrder> getAllOrders() {
+        return purchaseOrderRepository.findAll();
+    }
 }

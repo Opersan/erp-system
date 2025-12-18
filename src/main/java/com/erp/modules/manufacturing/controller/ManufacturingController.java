@@ -32,4 +32,9 @@ public class ManufacturingController {
     public ResponseEntity<WorkOrder> getWorkOrder(@PathVariable Long id) {
         return ResponseEntity.ok(manufacturingService.getWorkOrder(id));
     }
+
+    @GetMapping("/work-orders")
+    public ResponseEntity<List<WorkOrder>> getAllWorkOrders() {
+        return ResponseEntity.ok(manufacturingService.getAllWorkOrders());
+    }
 }

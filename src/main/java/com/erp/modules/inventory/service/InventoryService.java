@@ -64,4 +64,8 @@ public class InventoryService {
         po.setStatus(POStatus.PARTIALLY_RECEIVED); // Or CLOSED
         purchaseOrderRepository.save(po);
     }
+
+    public java.util.List<Stock> getAllStock() {
+        return stockRepository.findAll();
+    }
 }

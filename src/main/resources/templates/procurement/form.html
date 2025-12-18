@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>New Purchase Order</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Create Purchase Order</h6>
+        </div>
+        <div class="card-body">
+            <form id="createPoForm">
+                <div class="mb-3">
+                    <label for="supplierId" class="form-label">Supplier ID</label>
+                    <input type="number" class="form-control" id="supplierId" required>
+                    <div class="form-text">Enter the ID of the supplier (e.g., 1)</div>
+                </div>
+                
+                <h5 class="mt-4">Items</h5>
+                <div id="itemsContainer">
+                    <div class="row mb-2 item-row">
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" placeholder="Item ID" name="itemId" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" class="form-control" placeholder="Quantity" name="quantity" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" class="form-control" placeholder="Price" name="price" step="0.01" required>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-danger btn-sm remove-item"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm mb-3" id="addItemBtn"><i class="fas fa-plus"></i> Add Item</button>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Create Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

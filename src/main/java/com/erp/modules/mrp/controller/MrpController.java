@@ -35,4 +35,9 @@ public class MrpController {
     public ResponseEntity<List<PurchaseOrder>> convertToPo(@RequestBody List<Long> plannedOrderIds) {
         return ResponseEntity.ok(mrpService.createPosFromPlannedOrders(plannedOrderIds));
     }
+
+    @GetMapping("/runs")
+    public ResponseEntity<List<MrpRun>> getAllRuns() {
+        return ResponseEntity.ok(mrpService.getAllRuns());
+    }
 }

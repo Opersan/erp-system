@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">ERP System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+<body>
+
+<nav th:fragment="sidebar" class="sidebar">
+    <a class="sidebar-brand" th:href="@{/dashboard}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-industry"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">ERP System</div>
+    </a>
+
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'dashboard'} ? 'active'" th:href="@{/dashboard}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider my-0" style="border-top: 1px solid rgba(255,255,255,0.15);">
+        
+        <div class="sidebar-heading text-white-50 px-3 mt-3 mb-1" style="font-size: 0.75rem;">Modules</div>
+
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'procurement'} ? 'active'" th:href="@{/procurement}">
+                <i class="fas fa-fw fa-shopping-cart"></i>
+                <span>Procurement</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'inventory'} ? 'active'" th:href="@{/inventory}">
+                <i class="fas fa-fw fa-boxes"></i>
+                <span>Inventory</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'manufacturing'} ? 'active'" th:href="@{/manufacturing}">
+                <i class="fas fa-fw fa-cogs"></i>
+                <span>Manufacturing</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'mrp'} ? 'active'" th:href="@{/mrp}">
+                <i class="fas fa-fw fa-chart-line"></i>
+                <span>MRP</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<nav th:fragment="topbar" class="topbar mb-4 static-top shadow">
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
+
+    <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small" sec:authentication="name">User</span>
+                <img class="img-profile rounded-circle" src="https://ui-avatars.com/api/?name=User&background=random" style="height: 2rem; width: 2rem;">
+            </a>
+            <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Profile
+                </a>
+                <div class="dropdown-divider"></div>
+                <form th:action="@{/logout}" method="post">
+                    <button class="dropdown-item" type="submit">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </li>
+    </ul>
+</nav>
+
+<footer th:fragment="footer" class="sticky-footer bg-white mt-auto py-3">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>Copyright &copy; ERP System 2025</span>
+        </div>
+    </div>
+</footer>
+
+<div th:fragment="scripts">
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery (required for DataTables) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom JS -->
+    <script th:src="@{/js/app.js}"></script>
+    <script th:src="@{/js/modules.js}"></script>
+</div>
+
+</body>
+</html>

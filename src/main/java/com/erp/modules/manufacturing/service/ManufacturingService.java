@@ -76,4 +76,8 @@ public class ManufacturingService {
         return workOrderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Work Order not found"));
     }
+
+    public List<WorkOrder> getAllWorkOrders() {
+        return workOrderRepository.findAll();
+    }
 }
