@@ -23,12 +23,12 @@ public class InventoryController {
     @PostMapping("/receipts")
     @PreAuthorize("hasRole('ROLE_ADMIN')") // Or specific permission
     public ResponseEntity<String> receiveGoods(@RequestBody GoodsReceiptRequest request) {
+        inventoryService.processGoodsReceipt(request);
+        return ResponseEntity.ok("Goods received successfully");
+    }
 
     @GetMapping("/stock")
     public ResponseEntity<List<Stock>> getAllStock() {
         return ResponseEntity.ok(inventoryService.getAllStock());
-    }
-        inventoryService.processGoodsReceipt(request);
-        return ResponseEntity.ok("Goods received successfully");
     }
 }

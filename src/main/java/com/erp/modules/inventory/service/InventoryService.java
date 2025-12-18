@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class InventoryService {
@@ -68,4 +70,10 @@ public class InventoryService {
     public java.util.List<Stock> getAllStock() {
         return stockRepository.findAll();
     }
-}
+    public List<PurchaseOrder> getPendingPurchaseOrders() {
+        return purchaseOrderRepository.findByStatusIn(java.util.List.of(POStatus.APPROVED, POStatus.PARTIALLY_RECEIVED));
+    }
+
+    public List<Warehouse> getAllWarehouses() {
+        return warehouseRepository.findAll();
+    }}

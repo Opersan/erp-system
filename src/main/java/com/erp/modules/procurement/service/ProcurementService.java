@@ -75,4 +75,12 @@ public class ProcurementService {
     public List<PurchaseOrder> getAllOrders() {
         return purchaseOrderRepository.findAll();
     }
+
+    public List<Supplier> getAllSuppliers() {
+        return supplierRepository.findAll();
+    }
+
+    public List<Item> getAllItems() {
+        return itemRepository.findAll();
+    }
 }

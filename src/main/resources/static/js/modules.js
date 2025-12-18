@@ -7,38 +7,9 @@ $(document).ready(function() {
     // List Orders
     if ($('#procurementTable').length) {
         $('#procurementTable').DataTable({
-            ajax: {
-                url: '/api/procurement/orders',
-                dataSrc: ''
-            },
-            columns: [
-                { data: 'id' },
-                { data: 'supplier.name', defaultContent: 'N/A' }, // Assuming Supplier entity has name
-                { 
-                    data: 'status',
-                    render: function(data) {
-                        let badgeClass = 'bg-secondary';
-                        if (data === 'APPROVED') badgeClass = 'bg-success';
-                        if (data === 'DRAFT') badgeClass = 'bg-warning';
-                        return `<span class="badge ${badgeClass}">${data}</span>`;
-                    }
-                },
-                { 
-                    data: 'totalAmount',
-                    render: function(data) {
-                        return '$' + (data ? data.toFixed(2) : '0.00');
-                    }
-                },
-                {
-                    data: 'id',
-                    render: function(data) {
-                        return `
-                            <a href="#" class="btn btn-info btn-sm btn-circle"><i class="fas fa-eye"></i></a>
-                            <button onclick="approveOrder(${data})" class="btn btn-success btn-sm btn-circle" title="Approve"><i class="fas fa-check"></i></button>
-                        `;
-                    }
-                }
-            ]
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/tr.json'
+            }
         });
     }
 
@@ -46,22 +17,7 @@ $(document).ready(function() {
     if ($('#createPoForm').length) {
         // Add Item Row
         $('#addItemBtn').click(function() {
-            const row = `
-                <div class="row mb-2 item-row">
-                    <div class="col-md-4">
-                        <input type="number" class="form-control" placeholder="Item ID" name="itemId" required>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="number" class="form-control" placeholder="Quantity" name="quantity" required>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="number" class="form-control" placeholder="Price" name="price" step="0.01" required>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-danger btn-sm remove-item"><i class="fas fa-trash"></i></button>
-                    </div>
-                </div>
-            `;
+            const row = $('#itemRowTemplate').html();
             $('#itemsContainer').append(row);
         });
 
@@ -76,11 +32,22 @@ $(document).ready(function() {
             
             const items = [];
             $('.item-row').each(function() {
-                items.push({
-                    itemId: $(this).find('input[name="itemId"]').val(),
-                    quantity: $(this).find('input[name="quantity"]').val(),
-                    price: $(this).find('input[name="price"]').val()
-                });
+                // Skip the template row if it's somehow selected (it shouldn't be as it's outside #itemsContainer)
+                // But we are iterating .item-row inside #itemsContainer ideally.
+                // The template is outside, but let's be safe.
+                if ($(this).parent().attr('id') === 'itemRowTemplate') return;
+
+                const itemId = $(this).find('[name="itemId"]').val();
+                const quantity = $(this).find('[name="quantity"]').val();
+                const price = $(this).find('[name="price"]').val();
+
+                if (itemId && quantity && price) {
+                    items.push({
+                        itemId: itemId,
+                        quantity: quantity,
+                        price: price
+                    });
+                }
             });
 
             const data = {
@@ -94,10 +61,15 @@ $(document).ready(function() {
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function(response) {
-                    alert('Order created successfully!');
+                    alert('Sipariş başarıyla oluşturuldu!');
                     window.location.href = '/procurement';
                 },
                 error: function(xhr) {
+                    alert('Hata: ' + (xhr.responseJSON ? xhr.responseJSON.message : 'Bilinmeyen hata'));
+                }
+            });
+        });
+    }
                     alert('Error creating order: ' + xhr.responseText);
                 }
             });
@@ -109,35 +81,16 @@ $(document).ready(function() {
     // List Stock
     if ($('#stockTable').length) {
         $('#stockTable').DataTable({
-            ajax: {
-                url: '/api/inventory/stock',
-                dataSrc: ''
-            },
-            columns: [
-                { data: 'id' },
-                { data: 'item.name', defaultContent: 'Item #' + 'item.id' }, // Fallback if name missing
-                { data: 'warehouse.name', defaultContent: 'Warehouse #' + 'warehouse.id' },
-                { data: 'onHand' }
-            ]
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/tr.json'
+            }
         });
     }
 
     // Receive Goods Form
     if ($('#receiveGoodsForm').length) {
         $('#addReceiveItemBtn').click(function() {
-            const row = `
-                <div class="row mb-2 item-row">
-                    <div class="col-md-6">
-                        <input type="number" class="form-control" placeholder="Item ID" name="itemId" required>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="number" class="form-control" placeholder="Quantity" name="quantity" required>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-danger btn-sm remove-item"><i class="fas fa-trash"></i></button>
-                    </div>
-                </div>
-            `;
+            const row = $('#receiveItemRowTemplate').html();
             $('#receiveItemsContainer').append(row);
         });
 
@@ -146,10 +99,17 @@ $(document).ready(function() {
             
             const items = [];
             $('.item-row').each(function() {
-                items.push({
-                    itemId: $(this).find('input[name="itemId"]').val(),
-                    quantity: $(this).find('input[name="quantity"]').val()
-                });
+                if ($(this).parent().attr('id') === 'receiveItemRowTemplate') return;
+
+                const itemId = $(this).find('[name="itemId"]').val();
+                const quantity = $(this).find('[name="quantity"]').val();
+                
+                if (itemId && quantity) {
+                    items.push({
+                        itemId: itemId,
+                        quantity: quantity
+                    });
+                }
             });
 
             const data = {
@@ -164,11 +124,11 @@ $(document).ready(function() {
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function(response) {
-                    alert('Goods received successfully!');
+                    alert('Mal kabul işlemi başarıyla tamamlandı!');
                     window.location.href = '/inventory';
                 },
                 error: function(xhr) {
-                    alert('Error receiving goods: ' + xhr.responseText);
+                    alert('Hata: ' + (xhr.responseJSON ? xhr.responseJSON.message : 'Bilinmeyen hata'));
                 }
             });
         });
@@ -179,29 +139,15 @@ $(document).ready(function() {
     // List Work Orders
     if ($('#workOrderTable').length) {
         $('#workOrderTable').DataTable({
-            ajax: {
-                url: '/api/manufacturing/work-orders',
-                dataSrc: ''
-            },
-            columns: [
-                { data: 'id' },
-                { data: 'item.name', defaultContent: 'Item #' + 'item.id' },
-                { data: 'quantity' },
-                { 
-                    data: 'status',
-                    render: function(data) {
-                        let badgeClass = 'bg-secondary';
-                        if (data === 'COMPLETED') badgeClass = 'bg-success';
-                        if (data === 'IN_PROGRESS') badgeClass = 'bg-primary';
-                        if (data === 'PLANNED') badgeClass = 'bg-info';
-                        return `<span class="badge ${badgeClass}">${data}</span>`;
-                    }
-                },
-                { data: 'startDate', defaultContent: '-' },
-                { data: 'endDate', defaultContent: '-' },
-                {
-                    data: 'id',
-                    render: function(data) {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/tr.json'
+            }
+        });
+    }
+
+    // Dummy placeholder to maintain structure
+    if (false) {
+        var dummy = function(data) {
                         return `
                             <button onclick="updateWoStatus(${data}, 'RELEASED')" class="btn btn-primary btn-sm" title="Release">Release</button>
                             <button onclick="updateWoStatus(${data}, 'COMPLETED')" class="btn btn-success btn-sm" title="Complete">Complete</button>

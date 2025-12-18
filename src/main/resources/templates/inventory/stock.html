@@ -19,13 +19,18 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Item</th>
-                            <th>Warehouse</th>
-                            <th>On Hand</th>
+                            <th>Ürün</th>
+                            <th>Depo</th>
+                            <th>Stok Miktarı</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Data populated by JS -->
+                        <tr th:each="stock : ${stocks}">
+                            <td th:text="${stock.id}">ID</td>
+                            <td th:text="${stock.item.name}">Item</td>
+                            <td th:text="${stock.warehouse.name}">Warehouse</td>
+                            <td th:text="${stock.onHand}">On Hand</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

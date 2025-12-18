@@ -37,9 +37,9 @@ spring:
     activate:
       on-profile: prod
   datasource:
-    url: ${JDBC_DATABASE_URL}
-    username: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/erp_db}
+    username: ${DATABASE_USERNAME:erp_user}
+    password: ${DATABASE_PASSWORD:erp_password}
   jpa:
     hibernate:
       ddl-auto: validate

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/base}">
 <head>
-    <title>New Work Order</title>
+    <title th:text="${pageTitle}">Yeni İş Emri</title>
 </head>
 <body>
 
@@ -10,29 +10,34 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Create Work Order</h6>
+            <h6 class="m-0 font-weight-bold text-primary">İş Emri Oluştur</h6>
         </div>
         <div class="card-body">
             <form id="createWorkOrderForm">
                 <div class="mb-3">
-                    <label for="itemId" class="form-label">Item ID (Finished Good)</label>
-                    <input type="number" class="form-control" id="itemId" required>
+                    <label for="itemId" class="form-label">Ürün (Mamul)</label>
+                    <select class="form-select" id="itemId" required>
+                        <option value="" selected disabled>Ürün Seçiniz...</option>
+                        <option th:each="item : ${items}" 
+                                th:value="${item.id}" 
+                                th:text="${item.code + ' - ' + item.name}">Item Name</option>
+                    </select>
                 </div>
                 <div class="mb-3">
-                    <label for="quantity" class="form-label">Quantity</label>
-                    <input type="number" class="form-control" id="quantity" required>
+                    <label for="quantity" class="form-label">Miktar</label>
+                    <input type="number" class="form-control" id="quantity" required min="1">
                 </div>
                 <div class="mb-3">
-                    <label for="startDate" class="form-label">Start Date</label>
+                    <label for="startDate" class="form-label">Başlangıç Tarihi</label>
                     <input type="datetime-local" class="form-control" id="startDate">
                 </div>
                 <div class="mb-3">
-                    <label for="endDate" class="form-label">End Date</label>
+                    <label for="endDate" class="form-label">Bitiş Tarihi</label>
                     <input type="datetime-local" class="form-control" id="endDate">
                 </div>
 
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary">Create Work Order</button>
+                    <button type="submit" class="btn btn-primary">İş Emri Oluştur</button>
                 </div>
             </form>
         </div>

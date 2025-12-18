@@ -80,4 +80,10 @@ public class ManufacturingService {
     public List<WorkOrder> getAllWorkOrders() {
         return workOrderRepository.findAll();
     }
+
+    public List<Item> getItemsWithBOM() {
+        return bomRepository.findAll().stream()
+                .map(BOM::getItem)
+                .toList();
+    }
 }

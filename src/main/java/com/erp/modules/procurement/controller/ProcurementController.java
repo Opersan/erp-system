@@ -31,10 +31,10 @@ public class ProcurementController {
     @GetMapping("/orders/{id}")
     public ResponseEntity<PurchaseOrder> getPO(@PathVariable Long id) {
         return ResponseEntity.ok(procurementService.getPO(id));
+    }
 
     @GetMapping("/orders")
     public ResponseEntity<List<PurchaseOrder>> getAllOrders() {
         return ResponseEntity.ok(procurementService.getAllOrders());
-    }
     }
 }
