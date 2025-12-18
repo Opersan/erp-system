@@ -2,16 +2,20 @@
 
 $(document).ready(function() {
     
+    // Initialize all DataTables with Turkish language
+    $('.table').each(function() {
+        if ($(this).find('tbody tr').length > 0 && !$(this).hasClass('no-datatable')) {
+            $(this).DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/tr.json'
+                },
+                pageLength: 10,
+                responsive: true
+            });
+        }
+    });
+    
     // --- Procurement Module ---
-
-    // List Orders
-    if ($('#procurementTable').length) {
-        $('#procurementTable').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/tr.json'
-            }
-        });
-    }
 
     // Create Order Form
     if ($('#createPoForm').length) {
@@ -78,15 +82,6 @@ $(document).ready(function() {
 
     // --- Inventory Module ---
 
-    // List Stock
-    if ($('#stockTable').length) {
-        $('#stockTable').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/tr.json'
-            }
-        });
-    }
-
     // Receive Goods Form
     if ($('#receiveGoodsForm').length) {
         $('#addReceiveItemBtn').click(function() {
@@ -135,15 +130,6 @@ $(document).ready(function() {
     }
 
     // --- Manufacturing Module ---
-
-    // List Work Orders
-    if ($('#workOrderTable').length) {
-        $('#workOrderTable').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/tr.json'
-            }
-        });
-    }
 
     // Dummy placeholder to maintain structure
     if (false) {
