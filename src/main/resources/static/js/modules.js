@@ -74,11 +74,6 @@ $(document).ready(function() {
             });
         });
     }
-                    alert('Error creating order: ' + xhr.responseText);
-                }
-            });
-        });
-    }
 
     // --- Inventory Module ---
 
@@ -130,19 +125,6 @@ $(document).ready(function() {
     }
 
     // --- Manufacturing Module ---
-
-    // Dummy placeholder to maintain structure
-    if (false) {
-        var dummy = function(data) {
-                        return `
-                            <button onclick="updateWoStatus(${data}, 'RELEASED')" class="btn btn-primary btn-sm" title="Release">Release</button>
-                            <button onclick="updateWoStatus(${data}, 'COMPLETED')" class="btn btn-success btn-sm" title="Complete">Complete</button>
-                        `;
-                    }
-                }
-            ]
-        });
-    }
 
     // Create Work Order Form
     if ($('#createWorkOrderForm').length) {
